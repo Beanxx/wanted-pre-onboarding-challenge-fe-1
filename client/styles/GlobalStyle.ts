@@ -7,6 +7,10 @@ const GlobalStyle = createGlobalStyle`
   :root {
     --main-bgc: #0d1117;
     --font-color: #c9d1d9;
+    --side-bgc: #161b22;
+    --border-color: #21262d;
+    --btn-color: #21262d;
+    --btn-hover-color: #30363d;
   }
 
   body {
