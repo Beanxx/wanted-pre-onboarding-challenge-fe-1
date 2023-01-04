@@ -1,14 +1,17 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
-import styles from "../styles/Home.module.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import React from "react";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <>
-      <h1>wanted-pre-onboarding-challenge-fe-1</h1>
+      <ul>
+        <li>
+          <Link href="/auth">auth</Link>
+        </li>
+        <li>
+          <Link href="/todo">todo</Link>
+        </li>
+      </ul>
     </>
   );
 }
