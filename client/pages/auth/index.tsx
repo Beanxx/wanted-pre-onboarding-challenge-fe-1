@@ -4,8 +4,14 @@ import styled from "styled-components";
 import Input from "../../components/UI/Input/Input";
 import { Btn, TabBtn } from "../../components/UI/Button/Button";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/authSlice";
 
 const index = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const [isTab, setIsTab] = useState<Number>(0);
   const TAB = [{ name: "LOGIN" }, { name: "SIGNUP" }];
   const [role, setRole] = useState("LOGIN");
@@ -55,12 +61,34 @@ const index = () => {
       password: pw,
     };
 
-    axios
-      .post(`http://localhost:8080/users/create`, body)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => console.log(error));
+    if (isTab) {
+      axios
+        .post(`http://localhost:8080/users/create`, body)
+        .then((response) => {
+          alert(response.data.message);
+          setIsTab(0);
+        })
+        .catch((error) => {
+          if (error.response.status === 409) {
+            alert(error.response.data.details);
+          }
+        });
+    } else {
+      axios
+        .post(`http://localhost:8080/users/login`, body)
+        .then((response) => {
+          alert(response.data.message);
+          localStorage.setItem("Token", response.data.token);
+          dispatch(login());
+          router.push("/");
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 400) {
+            alert(error.response.data.details);
+          }
+        });
+    }
 
     setEmail("");
     setEmailTouched(false);
@@ -126,11 +154,13 @@ const index = () => {
           </Input>
           {pwInputIsInvalid && <Error>8자 이상 작성해주세요.</Error>}
         </Box>
-        {isTab ? (
-          <Btn disabled={!formIsValid}>Signup</Btn>
-        ) : (
-          <Btn disabled={!formIsValid}>Login</Btn>
-        )}
+        <BtnBox>
+          {isTab ? (
+            <Btn disabled={!formIsValid}>Signup</Btn>
+          ) : (
+            <Btn disabled={!formIsValid}>Login</Btn>
+          )}
+        </BtnBox>
       </Form>
     </Layout>
   );
@@ -152,6 +182,7 @@ const Tab = styled.div`
 
   .focused {
     background-color: var(--btn-hover-color);
+    color: #fff;
   }
 `;
 
@@ -168,4 +199,9 @@ const Error = styled.div`
   font-size: 11px;
   margin-left: 16px;
   text-align: left;
+`;
+
+const BtnBox = styled.div`
+  width: 90%;
+  margin: 0 auto;
 `;
