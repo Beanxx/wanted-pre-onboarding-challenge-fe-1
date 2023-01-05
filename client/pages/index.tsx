@@ -1,17 +1,11 @@
 import React from "react";
-import Link from "next/link";
+import styled from "styled-components";
 
 export default function Home() {
-  return (
-    <>
-      <ul>
-        <li>
-          <Link href="/auth">auth</Link>
-        </li>
-        <li>
-          <Link href="/todo">todo</Link>
-        </li>
-      </ul>
-    </>
-  );
+  return <Layout>Main Page</Layout>;
 }
+
+const Layout = styled.div`
+  height: 100vh;
+  margin-top: 5rem;
+`;
