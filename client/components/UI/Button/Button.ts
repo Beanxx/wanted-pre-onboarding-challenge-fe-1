@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const Btn = styled.button`
-  width: 90%;
+  width: 100%;
   height: 35px;
   padding: 0 20px;
   background-color: #006eff;
@@ -21,6 +21,7 @@ export const Btn = styled.button`
   font-weight: 400;
   transition: all 0.2s ease-in-out;
   margin: 0 auto;
+  text-align: center;
   cursor: pointer;
 
   &:disabled {
