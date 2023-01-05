@@ -61,18 +61,19 @@ const index = () => {
       password: pw,
     };
 
-    if (role === "SIGNUP") {
+    if (isTab) {
       axios
         .post(`http://localhost:8080/users/create`, body)
         .then((response) => {
           alert(response.data.message);
+          setIsTab(0);
         })
         .catch((error) => {
           if (error.response.status === 409) {
             alert(error.response.data.details);
           }
         });
-    } else if (role === "LOGIN") {
+    } else {
       axios
         .post(`http://localhost:8080/users/login`, body)
         .then((response) => {
@@ -153,11 +154,13 @@ const index = () => {
           </Input>
           {pwInputIsInvalid && <Error>8자 이상 작성해주세요.</Error>}
         </Box>
-        {isTab ? (
-          <Btn disabled={!formIsValid}>Signup</Btn>
-        ) : (
-          <Btn disabled={!formIsValid}>Login</Btn>
-        )}
+        <BtnBox>
+          {isTab ? (
+            <Btn disabled={!formIsValid}>Signup</Btn>
+          ) : (
+            <Btn disabled={!formIsValid}>Login</Btn>
+          )}
+        </BtnBox>
       </Form>
     </Layout>
   );
@@ -196,4 +199,9 @@ const Error = styled.div`
   font-size: 11px;
   margin-left: 16px;
   text-align: left;
+`;
+
+const BtnBox = styled.div`
+  width: 90%;
+  margin: 0 auto;
 `;
