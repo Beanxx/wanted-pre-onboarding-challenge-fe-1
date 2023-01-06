@@ -156,9 +156,13 @@ const index = () => {
         </Box>
         <BtnBox>
           {isTab ? (
-            <Btn disabled={!formIsValid}>Signup</Btn>
+            <Btn disabled={!formIsValid} width="100%">
+              Signup
+            </Btn>
           ) : (
-            <Btn disabled={!formIsValid}>Login</Btn>
+            <Btn disabled={!formIsValid} width="100%">
+              Login
+            </Btn>
           )}
         </BtnBox>
       </Form>

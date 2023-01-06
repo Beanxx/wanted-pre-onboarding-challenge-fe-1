@@ -8,8 +8,8 @@ interface Props {
   borderB?: string;
 }
 
-export const Btn = styled.button`
-  width: 100%;
+export const Btn = styled.button<Props>`
+  width: ${(props) => props.width || "auto"};
   height: 35px;
   padding: 0 20px;
   background-color: #006eff;
