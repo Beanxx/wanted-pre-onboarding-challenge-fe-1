@@ -5,8 +5,10 @@ import TodoList from "../../components/Todo/TodoList/TodoList";
 import { getTodos, getTodo, postTodo, deleteTodo } from "../../apis/api";
 import TodoEditor from "../../components/Todo/TodoEditor/TodoEditor";
 import { TodoType } from "../../types/todo.interface";
-
+import { useRouter } from "next/router";
 const index = () => {
+  const router = useRouter();
+
   const [data, setData] = useState([]);
   const [detailData, setDetailData] = useState<TodoType[]>([]);
 
@@ -32,7 +34,7 @@ const index = () => {
 
   const postTodoHandler = async (title: string, content: string) => {
     await postTodo(title, content)
-      .then((response) => {
+      .then(() => {
         getTodosHandler();
       })
       .catch((error) => {
@@ -42,8 +44,8 @@ const index = () => {
 
   const deleteTodoHanlder = async (id: string) => {
     await deleteTodo(id)
-      .then((response) => {
-        console.log(response.data);
+      .then(() => {
+        router.reload();
       })
       .catch((error) => {
         console.log(error);

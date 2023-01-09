@@ -17,7 +17,9 @@ const TodoEditor: React.FC<{
       <div>{data[0]?.content}</div>
       <div>{data[0]?.createdAt.toString()}</div>
       <div>{data[0]?.updatedAt}</div>
-      <Btn onClick={onDelete}>Delete</Btn>
+      <Btn type="button" onClick={onDelete}>
+        Delete
+      </Btn>
     </S.Layout>
   );
 };
