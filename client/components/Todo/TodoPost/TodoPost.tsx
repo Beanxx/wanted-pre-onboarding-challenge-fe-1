@@ -5,9 +5,11 @@ import Input from "../../UI/Input/Input";
 import axios from "axios";
 import { getTodos } from "../../../apis/api";
 
-const TodoEditor: React.FC<{
+interface Props {
   postTodoHandler: (title: string, content: string) => void;
-}> = ({ postTodoHandler }) => {
+}
+
+const TodoEditor: React.FC<Props> = ({ postTodoHandler }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 

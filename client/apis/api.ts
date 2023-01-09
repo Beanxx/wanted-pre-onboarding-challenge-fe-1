@@ -48,3 +48,16 @@ export const deleteTodo = (id: string) => {
       }
     )
 };
+
+export const updateTodo = (id: string, title: string, content: string) => {
+  return axios
+    .put(
+      `http://localhost:8080/todos/${id}`, { title, content },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("Token")}`,
+        },
+      }
+    )
+};

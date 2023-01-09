@@ -3,10 +3,12 @@ import * as S from "./TodoList.styles";
 import TodoItem from "../TodoItem/TodoItem";
 import { TodoType } from "../../../types/todo.interface";
 
-const TodoList: React.FC<{
+interface Props {
   data: TodoType[];
   getTodoHandler: (id: string) => void;
-}> = ({ data, getTodoHandler }) => {
+}
+
+const TodoList: React.FC<Props> = ({ data, getTodoHandler }) => {
   return (
     <S.Layout>
       {data.map((el) => (

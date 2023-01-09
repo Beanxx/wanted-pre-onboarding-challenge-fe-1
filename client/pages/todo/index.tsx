@@ -2,12 +2,20 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TodoPost from "../../components/Todo/TodoPost/TodoPost";
 import TodoList from "../../components/Todo/TodoList/TodoList";
-import axios from "axios";
-import { getTodos, getTodo, postTodo, deleteTodo } from "../../apis/api";
+import {
+  getTodos,
+  getTodo,
+  postTodo,
+  deleteTodo,
+  updateTodo,
+} from "../../apis/api";
 import TodoEditor from "../../components/Todo/TodoEditor/TodoEditor";
 import { TodoType } from "../../types/todo.interface";
+import { useRouter } from "next/router";
 
 const index = () => {
+  const router = useRouter();
+
   const [data, setData] = useState([]);
   const [detailData, setDetailData] = useState<TodoType[]>([]);
 
@@ -33,8 +41,33 @@ const index = () => {
 
   const postTodoHandler = async (title: string, content: string) => {
     await postTodo(title, content)
-      .then((response) => {
+      .then(() => {
         getTodosHandler();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const deleteTodoHanlder = async (id: string) => {
+    await deleteTodo(id)
+      .then(() => {
+        router.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const updateTodoHanlder = async (
+    id: string,
+    title: string,
+    content: string
+  ) => {
+    await updateTodo(id, title, content)
+      .then((res) => {
+        getTodosHandler();
+        getTodoHandler(id);
       })
       .catch((error) => {
         console.log(error);
@@ -47,11 +80,19 @@ const index = () => {
 
   return (
     <Layout>
-      <h1>Todo</h1>
+      <h1>Todo List</h1>
       <Container>
         <div className="left_box">
           <TodoPost postTodoHandler={postTodoHandler} />
-          <TodoEditor data={detailData} />
+          {detailData.length === 0 ? (
+            <EmptyBox />
+          ) : (
+            <TodoEditor
+              deleteTodoHanlder={deleteTodoHanlder}
+              data={detailData}
+              updateTodoHanlder={updateTodoHanlder}
+            />
+          )}
         </div>
         <div className="right_box">
           <TodoList data={data} getTodoHandler={getTodoHandler} />
@@ -88,10 +129,14 @@ const Container = styled.div`
   }
 
   .right_box {
-    width: 50%;
+    width: 400px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
   }
+`;
+
+const EmptyBox = styled.div`
+  width: 90%;
+  height: 300px;
 `;
