@@ -11,23 +11,33 @@ export const Layout = styled.form`
 
 
 export const Box = styled.div`
-  width: 90%; 
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
 `
 
 export const Label = styled.div`
+  width: 90%;
   font-size: 15px;
   margin-bottom: 5px;
+  text-align: left;
 `
 
 export const Output = styled.div`
-  width: 100%;
+  width: 90%;
   background-color: var(--side-bgc);
   border-radius: 7px;
   padding: 10px;
   border: 1px solid var(--border-color);
   text-align: left;
   font-size: 13px;
+`
+
+export const BtnBox = styled.div`
+  width: 90%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 `
