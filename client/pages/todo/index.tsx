@@ -1,26 +1,38 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import TodoEditor from "../../components/Todo/TodoEditor/TodoEditor";
+import TodoPost from "../../components/Todo/TodoPost/TodoPost";
 import TodoList from "../../components/Todo/TodoList/TodoList";
 import axios from "axios";
-import { getTodos, postTodo } from "../../components/apis/api";
+import { getTodos, getTodo, postTodo, deleteTodo } from "../../apis/api";
+import TodoEditor from "../../components/Todo/TodoEditor/TodoEditor";
+import { TodoType } from "../../types/todo.interface";
 
 const index = () => {
   const [data, setData] = useState([]);
+  const [detailData, setDetailData] = useState<TodoType[]>([]);
 
-  const getTodosHandler = () => {
-    getTodos()
+  const getTodosHandler = async () => {
+    await getTodos()
       .then((response) => {
         setData(response.data.data);
-        console.log(response.data.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const postTodoHandler = (title: string, content: string) => {
-    postTodo(title, content)
+  const getTodoHandler = async (id: string) => {
+    await getTodo(id)
+      .then((response) => {
+        setDetailData([response.data.data]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const postTodoHandler = async (title: string, content: string) => {
+    await postTodo(title, content)
       .then((response) => {
         getTodosHandler();
       })
@@ -37,8 +49,13 @@ const index = () => {
     <Layout>
       <h1>Todo</h1>
       <Container>
-        <TodoEditor postTodoHandler={postTodoHandler} />
-        <TodoList data={data} />
+        <div className="left_box">
+          <TodoPost postTodoHandler={postTodoHandler} />
+          <TodoEditor data={detailData} />
+        </div>
+        <div className="right_box">
+          <TodoList data={data} getTodoHandler={getTodoHandler} />
+        </div>
       </Container>
     </Layout>
   );
@@ -53,12 +70,28 @@ const Layout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
 `;
 
 const Container = styled.div`
   width: 90%;
   margin-top: 1rem;
   display: flex;
+  justify-content: center;
   gap: 2rem;
+
+  .left_box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .right_box {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
