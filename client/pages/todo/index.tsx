@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TodoPost from "../../components/Todo/TodoPost/TodoPost";
 import TodoList from "../../components/Todo/TodoList/TodoList";
-import axios from "axios";
 import { getTodos, getTodo, postTodo, deleteTodo } from "../../apis/api";
 import TodoEditor from "../../components/Todo/TodoEditor/TodoEditor";
 import { TodoType } from "../../types/todo.interface";
@@ -41,6 +40,16 @@ const index = () => {
       });
   };
 
+  const deleteTodoHanlder = async (id: string) => {
+    await deleteTodo(id)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     getTodosHandler();
   }, []);
@@ -51,7 +60,7 @@ const index = () => {
       <Container>
         <div className="left_box">
           <TodoPost postTodoHandler={postTodoHandler} />
-          <TodoEditor data={detailData} />
+          <TodoEditor deleteTodoHanlder={deleteTodoHanlder} data={detailData} />
         </div>
         <div className="right_box">
           <TodoList data={data} getTodoHandler={getTodoHandler} />
