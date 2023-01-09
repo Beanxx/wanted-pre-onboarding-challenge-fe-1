@@ -62,7 +62,12 @@ const index = () => {
       <Container>
         <div className="left_box">
           <TodoPost postTodoHandler={postTodoHandler} />
-          <TodoEditor deleteTodoHanlder={deleteTodoHanlder} data={detailData} />
+          {detailData.length !== 0 && (
+            <TodoEditor
+              deleteTodoHanlder={deleteTodoHanlder}
+              data={detailData}
+            />
+          )}
         </div>
         <div className="right_box">
           <TodoList data={data} getTodoHandler={getTodoHandler} />
@@ -99,7 +104,7 @@ const Container = styled.div`
   }
 
   .right_box {
-    width: 50%;
+    width: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
