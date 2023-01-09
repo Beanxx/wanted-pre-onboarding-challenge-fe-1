@@ -9,19 +9,33 @@ const TodoEditor: React.FC<{
   data: TodoType[];
   deleteTodoHanlder: (id: string) => void;
 }> = ({ data, deleteTodoHanlder }) => {
+  const setDate = (a: string, b: string) => {
+    if (a !== b) {
+      return `${moment(b).format("YYYY년 MMMM Do, HH:mm")} (수정됨)`;
+    } else {
+      return moment(a).format("YYYY년 MMMM Do, HH:mm");
+    }
+  };
+
   const onDelete = () => {
     deleteTodoHanlder(data[0]?.id);
   };
 
-  const createdAt = moment(data[0]?.createdAt).format("YYYY년 MMMM Do, a h:mm");
-  const updatedAt = moment(data[0]?.updatedAt).format("YYYY년 MMMM Do, a h:mm");
-
   return (
     <S.Layout>
-      <div>{data[0]?.title}</div>
-      <div>{data[0]?.content}</div>
-      <div>{createdAt}</div>
-      <div>{updatedAt}</div>
+      <S.Box>
+        <S.Label>Title</S.Label>
+        <S.Output>{data[0]?.title}</S.Output>
+      </S.Box>
+      <S.Box>
+        <S.Label>Date</S.Label>
+        <S.Output>{setDate(data[0]?.createdAt, data[0]?.updatedAt)}</S.Output>
+      </S.Box>
+      <S.Box>
+        <S.Label>Content</S.Label>
+        <S.Output>{data[0]?.content}</S.Output>
+      </S.Box>
+
       <Btn type="button" onClick={onDelete}>
         Delete
       </Btn>
