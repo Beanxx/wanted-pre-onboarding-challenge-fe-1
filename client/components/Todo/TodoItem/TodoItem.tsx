@@ -2,10 +2,12 @@ import React from "react";
 import * as S from "./TodoItem.styles";
 import { TodoType } from "../../../types/todo.interface";
 
-const TodoItem: React.FC<{
+interface Props {
   data: TodoType;
   getTodoHandler: (id: string) => void;
-}> = ({ data, getTodoHandler }) => {
+}
+
+const TodoItem: React.FC<Props> = ({ data, getTodoHandler }) => {
   const ongetTodo = () => {
     getTodoHandler(data.id);
   };
