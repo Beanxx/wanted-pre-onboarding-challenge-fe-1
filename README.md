@@ -47,8 +47,10 @@
 
 ```bash
 > cd client
+> npm i
 > npm run dev
 
 > cd server
+> yarn
 > yarn start # http://localhost:8080
 ```
